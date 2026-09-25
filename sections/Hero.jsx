@@ -143,7 +143,7 @@ export default function Hero() {
       style={{ background: "var(--gradient-hero)" }}
     >
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{
           backgroundImage:
             "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
@@ -160,7 +160,7 @@ export default function Hero() {
         style={{ background: "hsl(var(--secondary))" }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-16">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left — Text */}
           <div className="order-1 lg:order-1">
@@ -222,10 +222,6 @@ export default function Hero() {
             >
               <a
                 href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-                }}
                 className="btn-neon px-8 py-3 rounded-xl font-medium text-sm inline-block cursor-pointer"
                 style={{ color: "hsl(var(--primary))" }}
               >
@@ -233,10 +229,6 @@ export default function Hero() {
               </a>
               <a
                 href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-                }}
                 className="px-8 py-3 rounded-xl font-medium text-sm inline-block cursor-pointer transition-all hover:scale-105 hover:opacity-90"
                 style={{
                   background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)))",

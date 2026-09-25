@@ -72,7 +72,7 @@ function MarqueeRow({ items, direction = "left", speed = 32 }) {
 
   return (
     <div
-      className="skills-marquee-wrap py-2"
+      className="skills-marquee-wrap py-4"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -103,9 +103,6 @@ export default function SkillsDisplay({ skills = defaultSkills }) {
     >
       <MarqueeRow items={rowOne} direction="left" />
       <MarqueeRow items={rowTwo.length ? rowTwo : rowOne} direction="right" />
-      <p className="text-center text-xs text-muted-foreground font-mono mt-4">
-        hover a card to pause &amp; see it light up
-      </p>
     </motion.div>
   );
 }

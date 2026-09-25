@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, Award } from "lucide-react";
+import { Briefcase, Award, ChevronRight } from "lucide-react";
 import SectionWrapper from "@/components/SectionWrapper";
 import SectionHeading from "@/components/SectionHeading";
 
@@ -108,20 +108,19 @@ export default function Experience() {
                     {exp.achievements.map((ach, j) => (
                       <li
                         key={j}
-                        className="text-muted-foreground text-xs leading-relaxed flex items-start gap-1.5"
-                        style={{ justifyContent: isLeft ? "flex-end" : "flex-start" }}
+                        className={`text-muted-foreground text-xs leading-relaxed flex items-start gap-1.5 ${isLeft ? "flex-row-reverse text-right" : "text-left"}`}
                       >
-                        <span className="mt-1 flex-shrink-0" style={{ color: "hsl(var(--primary))" }}>▹</span>
-                        {ach}
+                        <ChevronRight className={`mt-0.5 h-3 w-3 flex-shrink-0 ${isLeft ? "rotate-180" : ""}`} style={{ color: "hsl(var(--primary))" }} />
+                        <span className="min-w-0 flex-1">{ach}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div className={`flex flex-wrap gap-1.5 ${isLeft ? "md:justify-end" : "md:justify-start"}`}>
+                  <div className={`flex flex-wrap gap-2 ${isLeft ? "md:justify-end" : "md:justify-start"}`}>
                     {exp.stack.map((s) => (
                       <span
                         key={s}
-                        className="px-2 py-0.5 rounded text-xs font-mono"
+                        className="inline-flex items-center whitespace-nowrap px-2 py-0.5 rounded text-xs font-mono"
                         style={{
                           background: "hsl(var(--muted))",
                           color: "hsl(var(--muted-foreground))",
