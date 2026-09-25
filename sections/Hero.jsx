@@ -1,78 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Stars, MeshDistortMaterial } from "@react-three/drei";
 import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
-
-/* ---- Animated 3D Sphere ---- */
-function ProfileSphere() {
-  const meshRef = useRef(null);
-
-  useFrame(({ clock }) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = clock.getElapsedTime() * 0.3;
-      meshRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.2) * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.3} floatIntensity={0.5}>
-      <mesh ref={meshRef}>
-        <sphereGeometry args={[1.4, 64, 64]} />
-        <MeshDistortMaterial
-          color="#00d4ff"
-          attach="material"
-          distort={0.22}
-          speed={2}
-          roughness={0.1}
-          metalness={0.8}
-          opacity={0.12}
-          transparent
-        />
-      </mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2.0, 0.012, 16, 100]} />
-        <meshStandardMaterial color="#00d4ff" emissive="#00d4ff" emissiveIntensity={1.5} />
-      </mesh>
-      <mesh rotation={[Math.PI / 3, 0.5, 0]}>
-        <torusGeometry args={[2.2, 0.008, 16, 100]} />
-        <meshStandardMaterial color="#7c3aed" emissive="#7c3aed" emissiveIntensity={1.5} />
-      </mesh>
-    </Float>
-  );
-}
-
-/* ---- Orbiting particles ---- */
-function OrbitParticles() {
-  const groupRef = useRef(null);
-
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.5;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {Array.from({ length: 12 }).map((_, i) => {
-        const angle = (i / 12) * Math.PI * 2;
-        const radius = 2.8;
-        return (
-          <mesh
-            key={i}
-            position={[Math.cos(angle) * radius, Math.sin(angle * 0.5) * 0.3, Math.sin(angle) * radius]}
-          >
-            <sphereGeometry args={[0.04, 8, 8]} />
-            <meshStandardMaterial color="#00d4ff" emissive="#00d4ff" emissiveIntensity={3} />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
 
 /* ---- Typing animation hook ---- */
 const roles = [
@@ -116,21 +47,6 @@ function useTyping() {
 
   return text;
 }
-
-/* ---- Floating badges around profile ---- */
-const badges = [
-  { label: "React", pos: "top", color: "hsl(var(--primary))", border: "hsl(var(--primary) / 0.4)", anim: "badge-float-1" },
-  { label: "Node.js", pos: "right", color: "hsl(var(--secondary))", border: "hsl(var(--secondary) / 0.4)", anim: "badge-float-2" },
-  { label: "MongoDB", pos: "bottom", color: "hsl(142 70% 45%)", border: "hsl(142 70% 45% / 0.4)", anim: "badge-float-3" },
-  { label: "Next.js", pos: "left", color: "hsl(var(--secondary))", border: "hsl(0 0% 75% / 0.3)", anim: "badge-float-4" },
-];
-
-const badgePos = {
-  top: { top: "-14px", left: "40%", transform: "translateX(-50%)" },
-  right: { top: "50%", right: "-48px", transform: "translateY(-50%)" },
-  bottom: { bottom: "-14px", left: "40%", transform: "translateX(-50%)" },
-  left: { top: "50%", left: "-48px", transform: "translateY(-50%)" },
-};
 
 /* ---- Hero Section ---- */
 export default function Hero() {
@@ -259,7 +175,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — Profile + 3D Canvas */}
+          {/* Right — Profile card */}
           <motion.div
             className="order-2 lg:order-2 flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.85 }}
@@ -267,21 +183,17 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
           >
             <div className="relative">
-              <div className="relative w-64 h-64 md:w-80 md:h-80">
-                <div
-                  className="absolute inset-0 rounded-full animate-[rotate-slow_18s_linear_infinite]"
-                  style={{ border: "1px dashed hsl(var(--primary) / 0.25)" }}
-                />
-                <div
-                  className="absolute -inset-8 rounded-full animate-[rotate-slow_30s_linear_infinite_reverse]"
-                  style={{ border: "1px dashed hsl(var(--secondary) / 0.18)" }}
-                />
+              <div className="absolute -inset-6 rounded-3xl opacity-20 blur-2xl" style={{ background: "var(--gradient-primary)" }} />
+              <div className="absolute -top-3 -right-3 w-24 h-24 rounded-2xl" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.2)" }} />
+              <div className="absolute -bottom-3 -left-3 w-16 h-16 rounded-xl" style={{ background: "hsl(var(--secondary) / 0.08)", border: "1px solid hsl(var(--secondary) / 0.2)" }} />
+              <div className="relative w-72 h-80 sm:w-80 sm:h-96">
 
-                <div
-                  className="absolute inset-4 rounded-full overflow-hidden"
+                <motion.div
+                  className="absolute inset-0 rounded-2xl overflow-hidden"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.35 }}
                   style={{
-                    border: "2px solid hsl(var(--primary) / 0.5)",
-                    boxShadow: "0 0 40px hsl(var(--primary) / 0.25), 0 0 80px hsl(var(--primary) / 0.08)",
+                    boxShadow: "0 20px 60px hsl(var(--primary) / 0.2), 0 4px 16px hsl(0 0% 0% / 0.15)",
                   }}
                 >
                   <Image
@@ -291,42 +203,27 @@ export default function Hero() {
                     sizes="320px"
                     priority
                     className="object-cover"
+                    style={{ filter: "brightness(0.72)" }}
                   />
-                </div>
-
-                {badges.map((badge) => (
+                  <div className="absolute inset-0" style={{ background: "hsl(0 0% 0% / 0.25)" }} />
                   <div
-                    key={badge.label}
-                    className="absolute px-3 py-1 rounded-full text-xs font-mono font-semibold whitespace-nowrap"
-                    style={{
-                      ...badgePos[badge.pos],
-                      background: "hsl(var(--card))",
-                      border: `1px solid ${badge.border}`,
-                      color: badge.color,
-                      animation: `${badge.anim} 3.5s ease-in-out infinite`,
-                      boxShadow: "0 4px 12px hsl(220 30% 10% / 0.12)",
-                    }}
-                  >
-                    {badge.label}
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(to top, hsl(var(--background) / 0.5) 0%, transparent 50%)" }}
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div
+                      className="rounded-xl px-4 py-3 backdrop-blur-md"
+                      style={{ background: "hsl(var(--background) / 0.75)", border: "1px solid hsl(var(--border) / 0.6)" }}
+                    >
+                      <p className="font-display font-bold text-base text-foreground leading-none">{siteConfig.brand}</p>
+                      <p className="text-xs font-mono mt-0.5" style={{ color: "hsl(var(--primary))" }}>
+                        MERN Stack &amp; Full Stack Developer
+                      </p>
+                    </div>
                   </div>
-                ))}
+                </motion.div>
               </div>
 
-              <div
-                className="absolute -z-10"
-                style={{ width: 340, height: 340, left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}
-              >
-                <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
-                  <ambientLight intensity={0.3} />
-                  <pointLight position={[5, 5, 5]} color="#00d4ff" intensity={1.2} />
-                  <pointLight position={[-5, -5, -5]} color="#7c3aed" intensity={0.8} />
-                  <Suspense fallback={null}>
-                    <Stars radius={80} depth={50} count={800} factor={2} saturation={0} fade speed={1} />
-                    <ProfileSphere />
-                    <OrbitParticles />
-                  </Suspense>
-                </Canvas>
-              </div>
             </div>
           </motion.div>
         </div>
