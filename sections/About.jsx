@@ -189,8 +189,7 @@ export default function About() {
             </motion.a>
             <motion.a
               href={siteConfig.resumeUrl}
-              target="_blank"
-              rel="noreferrer"
+              download
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}

@@ -1,0 +1,14 @@
+Web_Nexoras Resume
+
+Role: MERN Stack & Full Stack Developer
+
+Skills:
+- React.js / Next.js
+- Node.js / Express.js
+- MongoDB / Mongoose
+- Tailwind CSS / UI design
+- REST API development
+- Performance optimization
+
+Summary:
+Web_Nexoras builds clean, fast, and scalable web applications for businesses and startups.
